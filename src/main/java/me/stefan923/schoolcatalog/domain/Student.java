@@ -1,97 +1,36 @@
 package me.stefan923.schoolcatalog.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import me.stefan923.schoolcatalog.converter.LocalDateConverter;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Data
 @Entity
 @Table(name = "students")
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Student {
 
-    private String cnp;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private int age;
-
-    public Student() { }
-
-    public Student(String cnp, String firstName, String lastName, String phoneNumber, int age) {
-        this.cnp = cnp;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.age = age;
-    }
-
     @Id
-    public String getCnp() {
-        return cnp;
-    }
+    @Column(length = 13, nullable = false)
+    private String cnp;
 
-    public void setCnp(String cnp) {
-        this.cnp = cnp;
-    }
+    @Column(length = 32, nullable = false)
+    private String firstName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    @Column(length = 64, nullable = false)
+    private String lastName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    @Column(name = "date_of_birth", nullable = false)
+    @Convert(converter = LocalDateConverter.class)
+    private LocalDate dateOfBirth;
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return getAge() == student.getAge() && getCnp().equals(student.getCnp())
-                && Objects.equals(getFirstName(), student.getFirstName())
-                && Objects.equals(getLastName(), student.getLastName())
-                && Objects.equals(getPhoneNumber(), student.getPhoneNumber());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCnp(), getFirstName(), getLastName(), getPhoneNumber(), getAge());
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "cnp='" + cnp + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", age=" + age +
-                '}';
-    }
+    @Column(length = 13)
+    private String phoneNumber;
 
 }
 
